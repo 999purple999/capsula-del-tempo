@@ -78,8 +78,10 @@ jobs:
       - name: Build locked-only site
         if: steps.build_type.outputs.type == 'locked'
         run: |
-          mkdir -p dist
+          mkdir -p dist/css dist/js
           cp src/locked.html dist/index.html
+          cp -r src/css dist/css
+          cp -r src/js dist/js
           echo "<!-- locked build -->" >> dist/index.html
 
       - name: Create GitHub Pages config

@@ -21,7 +21,7 @@
  */
 
 import { webcrypto } from 'node:crypto';
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, cpSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -107,6 +107,22 @@ function bytesToBase64(bytes) {
   return btoa(binary);
 }
 
+function copyStaticAssets(distDir) {
+  const cssSrc = join(ROOT, 'src', 'css');
+  const jsSrc = join(ROOT, 'src', 'js');
+  const cssDest = join(distDir, 'css');
+  const jsDest = join(distDir, 'js');
+
+  if (existsSync(cssSrc)) {
+    cpSync(cssSrc, cssDest, { recursive: true });
+    console.log('✓  Copied CSS assets to dist/css');
+  }
+  if (existsSync(jsSrc)) {
+    cpSync(jsSrc, jsDest, { recursive: true });
+    console.log('✓  Copied JS assets to dist/js');
+  }
+}
+
 /* ── MAIN ────────────────────────────────────────────────────── */
 
 async function main() {
@@ -149,6 +165,8 @@ async function main() {
   const outPath = join(distDir, 'index.html');
   writeFileSync(outPath, html, 'utf8');
   console.log(`✓  Written: ${outPath}`);
+
+  copyStaticAssets(distDir);
 
   // Also copy locked.html to dist/locked.html unchanged
   const lockedSrc = join(ROOT, 'src', 'locked.html');

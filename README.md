@@ -11,8 +11,17 @@ Sito web esperienziale ultra-cinematografico che simula una **capsula del tempo 
 ```
 capsula del tempo/
 ├── src/
+│   ├── css/                ← file CSS esterni per le pagine sorgente
+│   │   ├── index.css
+│   │   ├── locked.css
+│   │   └── preview.css
+│   ├── js/                 ← file JavaScript esterni per le pagine sorgente
+│   │   ├── index.js
+│   │   ├── locked.js
+│   │   └── preview.js
 │   ├── index.html          ← Sito completo (live, con rilascio automatico)
-│   └── locked.html         ← Versione locked pubblica (senza contenuti)
+│   ├── locked.html         ← Versione locked pubblica (senza contenuti)
+│   └── preview.html        ← Versione di anteprima con contenuto già aperto
 ├── worker/
 │   ├── index.js            ← Cloudflare Worker (API time + key)
 │   └── wrangler.toml       ← Config Worker
@@ -24,6 +33,8 @@ capsula del tempo/
 │   └── deploy.yml          ← GitHub Actions CI/CD
 └── package.json
 ```
+
+Le pagine in `src/` sono state aggiornate per caricare CSS e JavaScript esterni da `src/css/` e `src/js/`.
 
 ---
 

@@ -1,0 +1,35 @@
+# ================================================================
+# Cloudflare Worker — TIME CAPSULE 5B INF
+# ================================================================
+# Deploy: npx wrangler deploy
+# Secrets: npx wrangler secret put CAPSULE_KEY
+#          npx wrangler secret put RELEASE_DATE
+
+name        = "tc-5b-inf"
+main        = "index.js"
+compatibility_date = "2024-11-01"
+
+# Worker runs in the standard runtime (not Node.js compat needed)
+# for this simple JSON API.
+
+[observability]
+enabled = true
+
+# Environment variables (non-secret)
+[vars]
+# Add any non-secret env vars here if needed
+# LIVE_SITE_URL = "https://your-github-pages-url.github.io"
+
+# ── Production environment ──────────────────────────────────────
+[env.production]
+name = "tc-5b-inf"
+
+# ── Staging / preview environment ───────────────────────────────
+[env.staging]
+name = "tc-5b-inf-staging"
+
+# ── Routes ──────────────────────────────────────────────────────
+# Uncomment if you want to bind to a custom domain:
+# [[routes]]
+# pattern = "capsule.yourschool.it/api/*"
+# zone_name = "yourschool.it"

@@ -1,0 +1,132 @@
+# ================================================================
+# TIME CAPSULE 5B INF — GitHub Actions Deploy
+#
+# Triggers:
+#   - Push to main → builds and deploys live site (index.html)
+#   - Push to locked-branch → deploys only locked.html
+#   - Manual dispatch → choose which build to deploy
+#
+# Required GitHub Secrets (Settings → Secrets → Actions):
+#   CAPSULE_KEY      — 64-char hex AES-256 key
+#   WORKER_URL       — Cloudflare Worker URL (e.g. https://tc-5b.workers.dev)
+#
+# GitHub Pages:
+#   Settings → Pages → Source: GitHub Actions
+# ================================================================
+
+name: Build & Deploy Time Capsule
+
+on:
+  push:
+    branches:
+      - main
+      - locked-release
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Which build to deploy'
+        required: true
+        default: 'live'
+        type: choice
+        options:
+          - live
+          - locked
+          - both
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # ── JOB 1: Build ─────────────────────────────────────────────
+  build:
+    name: Build Site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Determine build type
+        id: build_type
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "type=${{ github.event.inputs.build_type }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref }}" = "refs/heads/locked-release" ]; then
+            echo "type=locked" >> $GITHUB_OUTPUT
+          else
+            echo "type=live" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build live site (with encrypted content)
+        if: steps.build_type.outputs.type == 'live' || steps.build_type.outputs.type == 'both'
+        env:
+          CAPSULE_KEY: ${{ secrets.CAPSULE_KEY }}
+          WORKER_URL: ${{ secrets.WORKER_URL }}
+        run: node scripts/encrypt-content.mjs
+
+      - name: Build locked-only site
+        if: steps.build_type.outputs.type == 'locked'
+        run: |
+          mkdir -p dist
+          cp src/locked.html dist/index.html
+          echo "<!-- locked build -->" >> dist/index.html
+
+      - name: Create GitHub Pages config
+        run: |
+          # Create a minimal _config.yml for GitHub Pages
+          echo "" > dist/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  # ── JOB 2: Deploy to GitHub Pages ────────────────────────────
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # ── JOB 3: Deploy Worker (optional) ──────────────────────────
+  deploy-worker:
+    name: Deploy Cloudflare Worker
+    runs-on: ubuntu-latest
+    # Only deploy worker on main branch pushes
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: worker
+          secrets: |
+            CAPSULE_KEY
+            RELEASE_DATE
+        env:
+          CAPSULE_KEY: ${{ secrets.CAPSULE_KEY }}
+          RELEASE_DATE: ${{ secrets.RELEASE_DATE }}
+        # This step is skipped if CLOUDFLARE_API_TOKEN is not set
+        continue-on-error: true

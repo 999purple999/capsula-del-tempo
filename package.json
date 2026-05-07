@@ -1,0 +1,19 @@
+{
+  "name": "time-capsule-5b-inf",
+  "version": "1.0.0",
+  "description": "TIME CAPSULE — 5B INF ITIS Quintino Sella. A cinematic digital time capsule.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/encrypt-content.mjs",
+    "build:locked": "node scripts/build-locked.mjs",
+    "dev": "npx serve dist -p 3000",
+    "dev:src": "npx serve src -p 3000",
+    "preview": "open http://localhost:3000?tc_preview_5b=1 & npx serve dist -p 3000",
+    "worker:dev": "cd worker && npx wrangler dev",
+    "worker:deploy": "cd worker && npx wrangler deploy",
+    "key:generate": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

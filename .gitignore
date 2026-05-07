@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.local
+*.key
+.wrangler/
+worker/.wrangler/
+
+# IMPORTANT: never commit secrets
+# capsule.key
+# .capsule-key
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "description": "Extra content injected after decryption — overrides HTML placeholders",
+    "version": "1.0",
+    "class": "5B INF",
+    "school": "ITIS Quintino Sella, Biella",
+    "year": "2026"
+  },
+  "it": {
+    "future.body": "Quando leggerete questo, il mondo sarà già diverso da come lo abbiamo conosciuto noi. Ma alcune cose resteranno: la curiosità, la necessità di capire, il desiderio di lasciare traccia.\n\nAbbiamo vissuto in un decennio che ci ha insegnato che il futuro è fragile, rapido, imprevedibile. Abbiamo imparato che la conoscenza non è neutrale — è potere, responsabilità, cura.\n\nCi auguriamo che abbiate un mondo migliore del nostro. E se non lo avete ancora, speriamo che queste parole vi ricordino che è sempre possibile costruirne uno.",
+    "future.body2": "Noi siamo stati qui. Abbiamo imparato, faticato, riso e qualche volta avuto paura. Abbiamo attraversato una pandemia seduti davanti a schermi, una guerra raccontata sui social, un'intelligenza artificiale che ha cambiato cosa significa scrivere, pensare, creare.\n\nEravamo ragazzi che diventavano adulti mentre il mondo si rompeva e si ricostruiva. E abbiamo cercato di capire.",
+    "credits.micro": "Time Capsule Project — Informatica e Telecomunicazioni — ITIS Q. Sella, Biella"
+  },
+  "en": {
+    "future.body": "When you read this, the world will already be different from how we knew it. But some things will remain: curiosity, the need to understand, the desire to leave a trace.\n\nWe lived in a decade that taught us the future is fragile, fast, unpredictable. We learned that knowledge is not neutral — it is power, responsibility, care.\n\nWe hope you have a better world than ours. And if you don't yet, we hope these words remind you that it's always possible to build one.",
+    "future.body2": "We were here. We learned, struggled, laughed and sometimes were afraid. We crossed a pandemic sitting in front of screens, a war told on social media, an artificial intelligence that changed what it means to write, think, create.\n\nWe were young people becoming adults while the world broke apart and rebuilt itself. And we tried to understand.",
+    "credits.micro": "Time Capsule Project — Computer Science & Telecommunications — ITIS Q. Sella, Biella"
+  }
+}

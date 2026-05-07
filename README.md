@@ -126,7 +126,7 @@ git commit -m "feat: initial time capsule deploy"
 git push origin main
 ```
 
-GitHub Actions costruirà automaticamente il sito e lo deploierà su GitHub Pages.
+GitHub Actions costruirà automaticamente il sito e lo deployerà su GitHub Pages.
 
 ---
 
@@ -168,7 +168,7 @@ node scripts/encrypt-content.mjs
 
 ### Cambiare la data di rilascio
 
-1. Nel Worker: `npx wrangler secret put RELEASE_DATE` → nuova data ISO
+1. Nel Worker: `npx wrangler secret put RELEASE_DATE` → nuova data in formato ISO 8601
 2. Nel `capsule-config` di `src/index.html`:
    ```json
    {"workerUrl":"...","releaseDate":"2026-06-10T08:00:00Z","previewParam":"tc_preview_5b"}
@@ -256,7 +256,7 @@ GitHub Actions rileverà il branch e deploierà solo `locked.html` come `index.h
 
 ### Perché un Cloudflare Worker e non solo il browser?
 
-Se si usasse solo l'ora del browser, chiunque potrebbe modificare il clock locale e sbloccare il sito. Il Worker usa il tempo del server Cloudflare (UTC sincrono con NTP), rendendo impossibile il bypass tramite manipolazione dell'orologio.
+Se si usasse solo l'ora del sistema operativo in cui viene eseguito il browser, chiunque potrebbe modificare l'orologio locale e sbloccare il sito. Il Worker usa il tempo del server Cloudflare (UTC sincrono con NTP), rendendo impossibile il bypass tramite manipolazione dell'orologio hardware.
 
 ### Perché AES-256-GCM?
 

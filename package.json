@@ -8,7 +8,7 @@
     "build:locked": "node scripts/build-locked.mjs",
     "dev": "npx serve dist -p 3000",
     "dev:src": "npx serve src -p 3000",
-    "preview": "open http://localhost:3000?tc_preview_5b=1 & npx serve dist -p 3000",
+    "preview": "node scripts/open-preview.mjs & npx serve dist -p 3000",
     "worker:dev": "cd worker && npx wrangler dev",
     "worker:deploy": "cd worker && npx wrangler deploy",
     "key:generate": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""

@@ -168,7 +168,7 @@ Il parametro `?tc_preview_5b=1` forza il rilascio immediato per scopi di svilupp
 ## Build Manuale
 
 ```bash
-# Build versione locked (copia file in dist/)
+# Build versione locked (copia i file in dist/)
 npm run build:locked
 
 # Genera la build cifrata
@@ -177,6 +177,8 @@ export WORKER_URL="https://tc-5b-inf.yourname.workers.dev"
 node scripts/encrypt-content.mjs
 
 # Output in dist/
+# dist/css/              ← contiene i file di stile della pagina
+# dist/js/               ← contiene i file di script della pagina
 # dist/index.html   ← versione live con payload cifrato
 # dist/locked.html  ← versione locked pubblica
 ```

@@ -22,9 +22,13 @@ fs.cpSync(srcCss, distCss, { recursive: true, force: true });
 const srcJs = path.join(projectRoot, 'src', 'js');
 fs.cpSync(srcJs, distJs, { recursive: true, force: true });
 
-// Copy locked.html as index.html
-const srcHtml = path.join(projectRoot, 'src', 'locked.html');
-const destHtml = path.join(distDir, 'index.html');
-fs.copyFileSync(srcHtml, destHtml);
+// Copy HTML files
+const srcLockedHtml = path.join(projectRoot, 'src', 'locked.html');
+const destLockedHtml = path.join(distDir, 'locked.html');
+fs.copyFileSync(srcLockedHtml, destLockedHtml);
+
+const srcIndexHtml = path.join(projectRoot, 'src', 'index.html');
+const destIndexHtml = path.join(distDir, 'index.html');
+fs.copyFileSync(srcIndexHtml, destIndexHtml);
 
 console.log('✓ Build locked completed successfully');

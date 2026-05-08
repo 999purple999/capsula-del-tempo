@@ -27,6 +27,8 @@ capsula del tempo/
 │   └── wrangler.toml       ← Config Worker
 ├── scripts/
 │   ├── encrypt-content.mjs ← Build script (cifra e inietta il payload)
+│   ├── build-locked.mjs    ← Build script cross-platform (copia file dist)
+│   ├── open-preview.mjs    ← Script cross-platform per aprire preview
 │   └── content.json        ← [OPZIONALE] Override contenuti post-release
 ├── dist/                   ← Output della build (generato automaticamente)
 ├── .github/workflows/
@@ -146,14 +148,17 @@ GitHub Actions costruirà automaticamente il sito e lo deployerà su GitHub Page
 Puoi testare il sito in locale (incluso il rilascio) senza aspettare la data:
 
 ```bash
-# Installa un server statico
-npm install -g serve
+# Installa le dipendenze
+npm install
 
-# Test versione sorgente (senza Worker, usa ora locale)
-npx serve src -p 3000
+# Build della versione locked
+npm run build:locked
 
-# Preview con rilascio immediato
-open "http://localhost:3000/index.html?tc_preview_5b=1"
+# Avvia il server (apre automaticamente il preview nel browser)
+npm run preview
+
+# Oppure, per servire solo i file sorgente
+npm run dev:src
 ```
 
 Il parametro `?tc_preview_5b=1` forza il rilascio immediato per scopi di sviluppo.
@@ -163,6 +168,9 @@ Il parametro `?tc_preview_5b=1` forza il rilascio immediato per scopi di svilupp
 ## Build Manuale
 
 ```bash
+# Build versione locked (copia file in dist/)
+npm run build:locked
+
 # Genera la build cifrata
 export CAPSULE_KEY="la-tua-chiave-hex-64-chars"
 export WORKER_URL="https://tc-5b-inf.yourname.workers.dev"

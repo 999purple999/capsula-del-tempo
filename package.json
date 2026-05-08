@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/encrypt-content.mjs",
-    "build:locked": "mkdir -p dist/css dist/js && cp -r src/css dist/css && cp -r src/js dist/js && cp src/locked.html dist/index.html",
+    "build:locked": "node scripts/build-locked.mjs",
     "dev": "npx serve dist -p 3000",
     "dev:src": "npx serve src -p 3000",
     "preview": "open http://localhost:3000?tc_preview_5b=1 & npx serve dist -p 3000",
